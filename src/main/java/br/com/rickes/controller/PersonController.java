@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.rickes.controller.dto.CityRequest;
+import br.com.rickes.controller.dto.CityResponse;
 import br.com.rickes.controller.dto.PersonRequest;
 import br.com.rickes.controller.dto.PersonResponse;
 import br.com.rickes.enumerat.GenderEnum;
@@ -124,9 +125,21 @@ public class PersonController {
         
         
     }
+    
+    @GetMapping("{name}/name")
+    public List<PersonResponse> findPersonByName(@PathVariable("name") String name) {
+    	
+    	List<Person> persons = personService.getPersonByName(name);
+    	
+    	return persons.stream()
+    			.map(p -> new PersonResponse().toModel(p))
+    			.collect(Collectors.toList());
+    }
+    
+    
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PersonResponse> findPersonByName(@PathVariable("id") Long id) {
+    public ResponseEntity<PersonResponse> removePerson(@PathVariable("id") Long id) {
     	
     	Optional<Person> person = personService.findById(id);
     	
