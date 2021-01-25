@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/github/rikes/spring-boot-api?branch=master)](https://travis-ci.org/github/rikes/spring-boot-api)
