@@ -33,4 +33,16 @@ public class CityRequest {
     	
         return city;
     }
+    
+    public CityRequest toModel(City c) {
+    	
+    	CityRequest city = null;
+    	if (c != null) {
+    		city = new CityRequest();
+	    	city.setId(c.getId());
+	    	city.setName(c.getName());
+	    	city.setState(c.getState());
+    	}
+        return city;
+    }
 }

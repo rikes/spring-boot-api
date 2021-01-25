@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.rickes.controller.dto.CityRequest;
 import br.com.rickes.controller.dto.PersonRequest;
 import br.com.rickes.controller.dto.PersonResponse;
 import br.com.rickes.enumerat.GenderEnum;
@@ -61,20 +62,21 @@ public class PersonController {
         
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<PersonResponse> savePerson(@RequestBody @Valid PersonRequest person) {
     	Optional<City> city = Optional.empty();
     	
     	if (person.getCity() != null) {
             city = cityService.findById(person.getCity().getId());
+            
+            if(city.isPresent())
+            	person.setCity(new CityRequest().toModel(city.get()));
+            else
+            	return ResponseEntity.notFound().build();
+            
         }
     	
     	Person p = new PersonRequest().fromModel(person);
-        
-        if(city.isPresent())
-        	p.setCity(city.get());
-        else
-        	return ResponseEntity.notFound().build();
         
         
         personService.savePerson(p);
